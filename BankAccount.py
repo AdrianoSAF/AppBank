@@ -1,5 +1,8 @@
 import pytz 
 import datetime 
+from random import randint 
+
+
 class Account:
     #depois refatorar para criar uma conta
 
@@ -54,7 +57,32 @@ class Account:
         for transacao in self._transacoes:
             print(transacao)
 
+class CartaoCredito:
 
+    def __init__(self, titular, contaCorrente) -> None:
+        self.numero = randint(10000000000000000, 9999999999999999)
+        self.titular = f"{Account._dataHoraAtual().month},{Account._dataHoraAtual().year + 4}"
+        self.codSeguranca = f"{randint(0,9)}{randint(0,9)}{randint(0,9)}" 
+        self.limite = None
+        self._senha = '1234'
+        self.contaCorrente = contaCorrente
+        contaCorrente.cartoes.append(self)
+
+    @property
+    def senha(self):
+        return self.senha
+    
+    @senha.setter
+    def senha(self, valor):
+        if self.isSenhaValida(valor):
+            self._senha = valor
+        else:
+            print("Nova senha inválida")
+    
+    def isSenhaValida(self, valor):
+        if len(valor) == 4 and valor.isnumeric():
+            return True
+        return False
 
 
 
